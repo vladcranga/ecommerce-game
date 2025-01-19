@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Item } from '../types/index';
 import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import api from '../services/api';
 
 const ItemDetail = () => {
@@ -106,6 +107,9 @@ const ItemDetail = () => {
             <p className="text-gray-400">No reviews yet.</p>
           )}
         </div>
+      </div>
+      <div className="mt-4">
+        <Footer />
       </div>
     </div>
   );

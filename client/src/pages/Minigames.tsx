@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import Game48 from '../components/minigames/Game48';
 import game64Screenshot from '../assets/game_64.png';
 
@@ -75,6 +76,7 @@ const Minigames = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

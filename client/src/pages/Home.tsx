@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import Footer from '../components/layout/Footer.tsx';
 import legendaryWeapon from '../assets/legendary_sword.jpg';
 import game64Screenshot from '../assets/game_64.png';
 import inventoryIcon from '../assets/inventory_item.png';
@@ -75,6 +75,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
