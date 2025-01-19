@@ -21,7 +21,18 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+
+    - name: Cache client node modules
+      uses: actions/cache@v4
+      with:
+        path: client/node_modules
+        key: client-node-modules-${{ hashFiles('client/package-lock.json') }}
+
+    - name: Cache server node modules
+      uses: actions/cache@v4
+      with:
+        path: server/node_modules
+        key: server-node-modules-${{ hashFiles('server/package-lock.json') }}
 
     - name: Client - Install dependencies
       working-directory: ./client
@@ -38,12 +49,3 @@ jobs:
     - name: Server - Build
       working-directory: ./server
       run: npm run build
-
-    - name: Cache node modules
-      uses: actions/cache@v4
-      with:
-        path: |
-          **/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
