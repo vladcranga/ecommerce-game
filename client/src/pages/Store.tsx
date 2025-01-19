@@ -6,6 +6,7 @@ import { setItems, setError } from '../store/slices/itemsSlice';
 import ItemCard from '../components/store/ItemCard';
 import FilterBar from '../components/store/FilterBar';
 import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import { Item } from '../types';
 import { AppDispatch } from '../store';
 
@@ -101,6 +102,7 @@ const Store = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

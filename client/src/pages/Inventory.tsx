@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 import EquippedItems from '../components/inventory/EquippedItems';
 import InventoryGrid from '../components/inventory/InventoryGrid';
 import PlayerStats from '../components/inventory/PlayerStats';
@@ -48,6 +49,7 @@ const Inventory = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

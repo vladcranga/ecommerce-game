@@ -5,6 +5,7 @@ import { fetchCart, removeFromCart, checkout } from '../store/slices/cartSlice';
 import { toast } from 'react-toastify';
 import { AppDispatch } from '../store';
 import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -118,6 +119,7 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };
