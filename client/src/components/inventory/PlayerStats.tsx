@@ -30,7 +30,7 @@ const PlayerStats = ({ stats }: PlayerStatsProps) => {
         <StatBar label="Damage" value={stats.damage} />
         <StatBar label="Defense" value={stats.defense} />
         <StatBar label="Speed" value={stats.speed} />
-        <StatBar label="Health" value={stats.health} />
+        <StatBar label="Health" value={stats.health} max={500} />
       </div>
     </div>
   );
