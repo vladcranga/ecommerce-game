@@ -1,6 +1,6 @@
 # 🎮 Fantasy Ecommerce Store
 
-A unique e-commerce platform that combines traditional online shopping with gaming elements. This project showcases a full-stack application where users can earn points, complete quests, and purchase virtual items in a fantasy-themed environment.
+A unique e-commerce platform that combines traditional online shopping with gaming elements. This project showcases a full-stack web application where users can play minigames, earn coins, and purchase virtual items in a fantasy-themed environment.
 
 <div align="center">
   <img src="./client/src/assets/index_page.png" alt="The Index Page"/>
