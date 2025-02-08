@@ -25,22 +25,22 @@ exports.register = async (req, res) => {
         helmet: null,
         chestpiece: null,
         boots: null,
-        potion: null
+        potion: null,
       },
       stats: {
         damage: 10,
         defense: 5,
         speed: 10,
-        health: 100
-      }
+        health: 100,
+      },
     });
 
     // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '30d'
+      expiresIn: '30d',
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       token,
       user: {
         id: user._id,
@@ -50,11 +50,11 @@ exports.register = async (req, res) => {
         level: user.level,
         inventory: user.inventory,
         equippedItems: user.equippedItems,
-        stats: user.stats
-      }
+        stats: user.stats,
+      },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -67,27 +67,27 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email })
       .populate({
         path: 'inventory.item',
-        model: 'Item'
+        model: 'Item',
       })
       .populate({
         path: 'equippedItems.weapon',
-        model: 'Item'
+        model: 'Item',
       })
       .populate({
         path: 'equippedItems.helmet',
-        model: 'Item'
+        model: 'Item',
       })
       .populate({
         path: 'equippedItems.chestpiece',
-        model: 'Item'
+        model: 'Item',
       })
       .populate({
         path: 'equippedItems.boots',
-        model: 'Item'
+        model: 'Item',
       })
       .populate({
         path: 'equippedItems.potion',
-        model: 'Item'
+        model: 'Item',
       });
 
     if (!user) {
@@ -102,10 +102,10 @@ exports.login = async (req, res) => {
 
     // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '30d'
+      expiresIn: '30d',
     });
 
-    res.json({
+    return res.json({
       token,
       user: {
         id: user._id,
@@ -115,11 +115,11 @@ exports.login = async (req, res) => {
         level: user.level,
         inventory: user.inventory,
         equippedItems: user.equippedItems,
-        stats: user.stats
-      }
+        stats: user.stats,
+      },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -127,9 +127,9 @@ exports.login = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     // User is already populated by the auth middleware
-    const user = req.user;
+    const { user } = req;
 
-    res.json({
+    return res.json({
       id: user._id,
       username: user.username,
       email: user.email,
@@ -137,11 +137,11 @@ exports.getUser = async (req, res) => {
       level: user.level,
       inventory: user.inventory,
       equippedItems: user.equippedItems,
-      stats: user.stats
+      stats: user.stats,
     });
   } catch (error) {
     console.error('Error in getUser:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -149,7 +149,7 @@ exports.getUser = async (req, res) => {
 exports.addCoins = async (req, res) => {
   try {
     const { amount } = req.body;
-    
+
     // Validate amount
     if (!amount || amount <= 0) {
       return res.status(400).json({ message: 'Invalid amount' });
@@ -166,12 +166,12 @@ exports.addCoins = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json({
+    return res.json({
       message: `Added ${amount} coins successfully`,
-      points: user.points
+      points: user.points,
     });
   } catch (error) {
     console.error('Error adding coins:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

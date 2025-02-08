@@ -7,7 +7,8 @@ exports.protect = async (req, res, next) => {
 
     // Check for token in Authorization header
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
+      const [, authToken] = req.headers.authorization.split(' ');
+      token = authToken;
     }
 
     if (!token) {
@@ -22,27 +23,27 @@ exports.protect = async (req, res, next) => {
       const user = await User.findById(decoded.id)
         .populate({
           path: 'inventory.item',
-          model: 'Item'
+          model: 'Item',
         })
         .populate({
           path: 'equippedItems.weapon',
-          model: 'Item'
+          model: 'Item',
         })
         .populate({
           path: 'equippedItems.helmet',
-          model: 'Item'
+          model: 'Item',
         })
         .populate({
           path: 'equippedItems.chestpiece',
-          model: 'Item'
+          model: 'Item',
         })
         .populate({
           path: 'equippedItems.boots',
-          model: 'Item'
+          model: 'Item',
         })
         .populate({
           path: 'equippedItems.potion',
-          model: 'Item'
+          model: 'Item',
         })
         .select('-password'); // Exclude password from the response
 
@@ -52,7 +53,7 @@ exports.protect = async (req, res, next) => {
 
       // Add user to request object
       req.user = user;
-      next();
+      return next();
     } catch (error) {
       console.error('Token verification error:', error);
       return res.status(401).json({ message: 'Not authorized - Invalid token' });

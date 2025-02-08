@@ -29,7 +29,7 @@ const addToCart = asyncHandler(async (req, res) => {
   }
 
   // Check if item is already in cart
-  const isInCart = user.cart.some(cartItem => cartItem.item._id.toString() === itemId);
+  const isInCart = user.cart.some((cartItem) => cartItem.item._id.toString() === itemId);
   if (isInCart) {
     res.status(400);
     throw new Error('Item is already in cart');
@@ -48,7 +48,7 @@ const addToCart = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     items: user.cart,
-    itemStock: item.stock
+    itemStock: item.stock,
   });
 });
 
@@ -68,7 +68,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
   }
 
   // Remove from cart
-  user.cart = user.cart.filter(cartItem => cartItem.item.toString() !== itemId);
+  user.cart = user.cart.filter((cartItem) => cartItem.item.toString() !== itemId);
   await user.save();
 
   // Increase stock
@@ -80,7 +80,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     items: user.cart,
-    itemStock: item.stock
+    itemStock: item.stock,
   });
 });
 
@@ -94,7 +94,7 @@ const purchaseCart = asyncHandler(async (req, res) => {
   const user = await User.findById(userId).populate({
     path: 'cart.item',
     model: 'Item',
-    select: '_id name description imageUrl rarity attributes type price category level stock'
+    select: '_id name description imageUrl rarity attributes type price category level stock',
   });
 
   if (!user) {
@@ -124,16 +124,16 @@ const purchaseCart = asyncHandler(async (req, res) => {
   try {
     // Add items to inventory with full item data
     const now = new Date();
-    const newInventoryItems = user.cart.map(cartItem => {
+    const newInventoryItems = user.cart.map((cartItem) => {
       // Verify item is fully populated
       if (!cartItem.item || !cartItem.item._id) {
         throw new Error('Invalid item data during purchase');
       }
 
       return {
-        item: cartItem.item,  // Store the full item object, not just the ID
+        item: cartItem.item, // Store the full item object, not just the ID
         quantity: 1,
-        acquiredAt: now
+        acquiredAt: now,
       };
     });
 
@@ -143,16 +143,16 @@ const purchaseCart = asyncHandler(async (req, res) => {
       {
         $push: { inventory: { $each: newInventoryItems } },
         $inc: { points: -totalCost },
-        $set: { cart: [] }
+        $set: { cart: [] },
       },
-      { 
+      {
         new: true,
-        runValidators: true
+        runValidators: true,
       }
     ).populate({
       path: 'inventory.item',
       model: 'Item',
-      select: '_id name description imageUrl rarity attributes type price category level stock'
+      select: '_id name description imageUrl rarity attributes type price category level stock',
     });
 
     if (!updatedUser) {
@@ -164,36 +164,38 @@ const purchaseCart = asyncHandler(async (req, res) => {
       .populate({
         path: 'inventory.item',
         model: 'Item',
-        select: '_id name description imageUrl rarity attributes type price category level stock'
+        select: '_id name description imageUrl rarity attributes type price category level stock',
       })
-      .lean();  // Use lean() for better performance
+      .lean(); // Use lean() for better performance
 
     if (!verifiedUser) {
       throw new Error('Failed to verify user update');
     }
 
     // Verify inventory items are properly populated
-    const verifiedInventory = verifiedUser.inventory.map(invItem => {
-      if (!invItem.item || typeof invItem.item === 'string') {
-        console.warn('Unpopulated inventory item detected:', invItem);
-        return null;
-      }
-      return invItem;
-    }).filter(Boolean);
+    const verifiedInventory = verifiedUser.inventory
+      .map((invItem) => {
+        if (!invItem.item || typeof invItem.item === 'string') {
+          console.warn('Unpopulated inventory item detected:', invItem);
+          return null;
+        }
+        return invItem;
+      })
+      .filter(Boolean);
 
     res.status(200).json({
       message: 'Purchase successful',
       user: {
         points: verifiedUser.points,
         inventory: verifiedInventory,
-        cart: verifiedUser.cart
-      }
+        cart: verifiedUser.cart,
+      },
     });
   } catch (error) {
     console.error('Purchase error:', error);
     res.status(500).json({
       message: 'Failed to complete purchase',
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -206,7 +208,7 @@ const getCart = asyncHandler(async (req, res) => {
   const user = await User.findById(userId).populate('cart.item');
 
   res.status(200).json({
-    items: user.cart
+    items: user.cart,
   });
 });
 
@@ -214,5 +216,5 @@ module.exports = {
   addToCart,
   removeFromCart,
   purchaseCart,
-  getCart
+  getCart,
 };

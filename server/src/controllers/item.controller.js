@@ -4,17 +4,17 @@ const Item = require('../models/item.model');
 exports.getItems = async (req, res) => {
   try {
     const { category, rarity, minLevel, maxPrice, search, populateQuest } = req.query;
-    let query = {};
+    const query = {};
 
     // Apply filters if they exist
     if (category) query.category = category;
     if (rarity) query.rarity = rarity;
-    if (minLevel) query.level = { $gte: parseInt(minLevel) };
-    if (maxPrice) query.price = { $lte: parseInt(maxPrice) };
+    if (minLevel) query.level = { $gte: parseInt(minLevel, 10) };
+    if (maxPrice) query.price = { $lte: parseInt(maxPrice, 10) };
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } }
+        { description: { $regex: search, $options: 'i' } },
       ];
     }
 
@@ -27,9 +27,9 @@ exports.getItems = async (req, res) => {
       items = await Item.populate(items, 'questRequirement');
     }
 
-    res.json(items);
+    return res.json(items);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching items', error: error.message });
+    return res.status(500).json({ message: 'Error fetching items', error: error.message });
   }
 };
 
@@ -39,14 +39,14 @@ exports.getItem = async (req, res) => {
     const item = await Item.findById(req.params.id)
       .populate('questRequirement')
       .populate('reviews.user', 'username');
-    
+
     if (!item) {
       return res.status(404).json({ message: 'Item not found' });
     }
-    
-    res.json(item);
+
+    return res.json(item);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching item', error: error.message });
+    return res.status(500).json({ message: 'Error fetching item', error: error.message });
   }
 };
 
@@ -55,9 +55,9 @@ exports.createItem = async (req, res) => {
   try {
     const item = new Item(req.body);
     await item.save();
-    res.status(201).json(item);
+    return res.status(201).json(item);
   } catch (error) {
-    res.status(400).json({ message: 'Error creating item', error: error.message });
+    return res.status(400).json({ message: 'Error creating item', error: error.message });
   }
 };
 
@@ -69,14 +69,14 @@ exports.updateItem = async (req, res) => {
       { $set: req.body },
       { new: true, runValidators: true }
     );
-    
+
     if (!item) {
       return res.status(404).json({ message: 'Item not found' });
     }
-    
-    res.json(item);
+
+    return res.json(item);
   } catch (error) {
-    res.status(400).json({ message: 'Error updating item', error: error.message });
+    return res.status(400).json({ message: 'Error updating item', error: error.message });
   }
 };
 
@@ -84,14 +84,14 @@ exports.updateItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
   try {
     const item = await Item.findByIdAndDelete(req.params.id);
-    
+
     if (!item) {
       return res.status(404).json({ message: 'Item not found' });
     }
-    
-    res.json({ message: 'Item deleted successfully' });
+
+    return res.json({ message: 'Item deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting item', error: error.message });
+    return res.status(500).json({ message: 'Error deleting item', error: error.message });
   }
 };
 
@@ -107,9 +107,7 @@ exports.addReview = async (req, res) => {
     }
 
     // Check if user has already reviewed
-    const hasReviewed = item.reviews.some(review => 
-      review.user.toString() === userId
-    );
+    const hasReviewed = item.reviews.some((review) => review.user.toString() === userId);
 
     if (hasReviewed) {
       return res.status(400).json({ message: 'You have already reviewed this item' });
@@ -118,13 +116,13 @@ exports.addReview = async (req, res) => {
     item.reviews.push({
       user: userId,
       rating,
-      comment
+      comment,
     });
 
     await item.save();
-    res.status(201).json(item);
+    return res.status(201).json(item);
   } catch (error) {
-    res.status(400).json({ message: 'Error adding review', error: error.message });
+    return res.status(400).json({ message: 'Error adding review', error: error.message });
   }
 };
 
@@ -134,13 +132,13 @@ exports.getItemReviews = async (req, res) => {
     const item = await Item.findById(req.params.id)
       .select('reviews')
       .populate('reviews.user', 'username');
-    
+
     if (!item) {
       return res.status(404).json({ message: 'Item not found' });
     }
 
-    res.json(item.reviews);
+    return res.json(item.reviews);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching reviews', error: error.message });
+    return res.status(500).json({ message: 'Error fetching reviews', error: error.message });
   }
 };

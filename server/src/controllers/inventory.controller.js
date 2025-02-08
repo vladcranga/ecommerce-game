@@ -1,6 +1,6 @@
+const asyncHandler = require('express-async-handler');
 const User = require('../models/user.model');
 const Item = require('../models/item.model');
-const asyncHandler = require('express-async-handler');
 
 // @desc    Equip an item
 // @route   POST /api/users/equip/:itemId
@@ -18,9 +18,7 @@ const equipItem = asyncHandler(async (req, res) => {
   }
 
   // Check if item exists in user's inventory
-  const inventoryItem = user.inventory.find(
-    (invItem) => invItem.item.toString() === itemId
-  );
+  const inventoryItem = user.inventory.find((invItem) => invItem.item.toString() === itemId);
 
   if (!inventoryItem) {
     res.status(400);
@@ -57,7 +55,7 @@ const equipItem = asyncHandler(async (req, res) => {
   res.json({
     message: 'Item equipped successfully',
     equippedItems: user.equippedItems,
-    stats: user.stats
+    stats: user.stats,
   });
 });
 
@@ -112,11 +110,11 @@ const unequipItem = asyncHandler(async (req, res) => {
   res.json({
     message: 'Item unequipped successfully',
     equippedItems: user.equippedItems,
-    stats: user.stats
+    stats: user.stats,
   });
 });
 
 module.exports = {
   equipItem,
-  unequipItem
+  unequipItem,
 };
