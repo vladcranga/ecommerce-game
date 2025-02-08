@@ -1,51 +1,56 @@
 const mongoose = require('mongoose');
 
-const questSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  requirements: {
-    pointsNeeded: {
-      type: Number,
-      default: 0
+const questSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    level: {
-      type: Number,
-      default: 1
+    description: {
+      type: String,
+      required: true,
     },
-    itemsRequired: [{
-      item: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Item'
-      },
-      quantity: {
+    requirements: {
+      pointsNeeded: {
         type: Number,
-        default: 1
-      }
-    }]
-  },
-  rewards: {
-    points: {
-      type: Number,
-      default: 0
+        default: 0,
+      },
+      level: {
+        type: Number,
+        default: 1,
+      },
+      itemsRequired: [
+        {
+          item: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Item',
+          },
+          quantity: {
+            type: Number,
+            default: 1,
+          },
+        },
+      ],
     },
-    experience: {
-      type: Number,
-      default: 0
-    }
+    rewards: {
+      points: {
+        type: Number,
+        default: 0,
+      },
+      experience: {
+        type: Number,
+        default: 0,
+      },
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
-  isActive: {
-    type: Boolean,
-    default: true
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-});
+);
 
 const Quest = mongoose.model('Quest', questSchema);
 module.exports = Quest;

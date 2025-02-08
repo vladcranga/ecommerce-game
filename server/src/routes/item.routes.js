@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const {
   getItems,
@@ -7,7 +8,7 @@ const {
   updateItem,
   deleteItem,
   addReview,
-  getItemReviews
+  getItemReviews,
 } = require('../controllers/item.controller');
 
 // Middleware for protecting routes

@@ -8,7 +8,8 @@ exports.protect = async (req, res, next) => {
 
     // Check for token in headers
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
+      const [, authToken] = req.headers.authorization.split(' ');
+      token = authToken;
     }
 
     if (!token) {
@@ -26,17 +27,16 @@ exports.protect = async (req, res, next) => {
 
     // Add user to request object
     req.user = user;
-    next();
+    return next();
   } catch (error) {
-    res.status(401).json({ message: 'Not authorized - Invalid token' });
+    return res.status(401).json({ message: 'Not authorized - Invalid token' });
   }
 };
 
 // Admin middleware
 exports.admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
-    next();
-  } else {
-    res.status(403).json({ message: 'Not authorized as admin' });
+    return next();
   }
+  return res.status(403).json({ message: 'Not authorized as admin' });
 };
