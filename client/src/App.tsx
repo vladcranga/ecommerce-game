@@ -78,7 +78,7 @@ const AppContent = () => {
       </Routes>
     </Router>
   );
-}
+};
 
 function App() {
   return (

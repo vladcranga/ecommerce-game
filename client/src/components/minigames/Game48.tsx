@@ -6,14 +6,21 @@ import { AppDispatch } from '../../store';
 
 const Game48 = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [board, setBoard] = useState<number[][]>([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]);
+  const [board, setBoard] = useState<number[][]>([
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
 
   // Initialize board
   const initBoard = useCallback(() => {
-    const newBoard = Array(4).fill(0).map(() => Array(4).fill(0));
+    const newBoard = Array(4)
+      .fill(0)
+      .map(() => Array(4).fill(0));
     addNumber(newBoard);
     addNumber(newBoard);
     setBoard(newBoard);
@@ -54,150 +61,161 @@ const Game48 = () => {
     return true;
   };
 
-  // Check if game is over
-  const checkGameOver = (currentBoard: number[][]) => {
-    // Check for empty cells
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        if (currentBoard[i][j] === 0) return false;
-      }
-    }
-
-    // Check for possible merges horizontally and vertically
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        const currentValue = currentBoard[i][j];
-        // Skip checking merges if it would exceed 64
-        if (currentValue > 32) continue;
-        
-        // Check right
-        if (j < 3 && currentBoard[i][j] === currentBoard[i][j + 1]) return false;
-        // Check down
-        if (i < 3 && currentBoard[i][j] === currentBoard[i + 1][j]) return false;
-      }
-    }
-
-    // If we get here, no moves are possible
-    // Check if it's a win (all tiles are 64)
-    const isWin = checkForWin(currentBoard);
-    handleGameEnd(isWin);
-    return true;
-  };
-
   // Handle winning and game over rewards
-  const handleGameEnd = async (isWin: boolean) => {
-    if (gameOver) return; // Prevent multiple rewards
-    setGameOver(true);
-    
-    let coinsEarned = 0;
-    let bonusCoins = 0;
-    
-    // Base reward for winning (all tiles are 64)
-    if (isWin) {
-      coinsEarned = 50;
-      setWon(true);
-    }
-    
-    // Bonus coins based on score milestones (awarded whether you win or lose)
-    if (score >= 1000) bonusCoins = 20;
-    else if (score >= 750) bonusCoins = 15;
-    else if (score >= 500) bonusCoins = 10;
-    else if (score >= 250) bonusCoins = 5;
-    
-    const totalCoins = coinsEarned + bonusCoins;
-    
-    if (totalCoins > 0) {
-      try {
-        await dispatch(addCoins(totalCoins)).unwrap();
-        const message = [];
-        if (isWin) message.push(`50 coins for winning`);
-        if (bonusCoins > 0) message.push(`${bonusCoins} bonus coins for score`);
-        
-        toast.success(
-          isWin 
-            ? `Congratulations! You won! Earned ${totalCoins} coins! (${message.join(' + ')})`
-            : `Game Over! You earned ${bonusCoins} bonus coins for your high score!`
-        );
-      } catch (error) {
-        toast.error('Failed to add coins');
+  const handleGameEnd = useCallback(
+    async (isWin: boolean) => {
+      if (gameOver) return; // Prevent multiple rewards
+      setGameOver(true);
+
+      let coinsEarned = 0;
+      let bonusCoins = 0;
+
+      // Base reward for winning (all tiles are 64)
+      if (isWin) {
+        coinsEarned = 50;
+        setWon(true);
       }
-    } else if (isWin) {
-      toast.success('Congratulations! You won and earned 50 coins!');
-    } else {
-      toast.info('Game Over! Try again to earn coins!');
-    }
-  };
+
+      // Bonus coins based on score milestones (awarded whether you win or lose)
+      if (score >= 1000) bonusCoins = 20;
+      else if (score >= 750) bonusCoins = 15;
+      else if (score >= 500) bonusCoins = 10;
+      else if (score >= 250) bonusCoins = 5;
+
+      const totalCoins = coinsEarned + bonusCoins;
+
+      if (totalCoins > 0) {
+        try {
+          await dispatch(addCoins(totalCoins)).unwrap();
+          const message = [];
+          if (isWin) message.push(`50 coins for winning`);
+          if (bonusCoins > 0) message.push(`${bonusCoins} bonus coins for score`);
+
+          toast.success(
+            isWin
+              ? `Congratulations! You won! Earned ${totalCoins} coins! (${message.join(' + ')})`
+              : `Game Over! You earned ${bonusCoins} bonus coins for your high score!`
+          );
+        } catch {
+          toast.error('Failed to add coins');
+        }
+      } else if (isWin) {
+        toast.success('Congratulations! You won and earned 50 coins!');
+      } else {
+        toast.info('Game Over! Try again to earn coins!');
+      }
+    },
+    [gameOver, score, dispatch, setGameOver, setWon]
+  );
+
+  // Check if game is over
+  const checkGameOver = useCallback(
+    (currentBoard: number[][]) => {
+      // Check for empty cells
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+          if (currentBoard[i][j] === 0) return false;
+        }
+      }
+
+      // Check for possible merges horizontally and vertically
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+          const currentValue = currentBoard[i][j];
+          // Skip checking merges if it would exceed 64
+          if (currentValue > 32) continue;
+
+          // Check right
+          if (j < 3 && currentBoard[i][j] === currentBoard[i][j + 1]) return false;
+          // Check down
+          if (i < 3 && currentBoard[i][j] === currentBoard[i + 1][j]) return false;
+        }
+      }
+
+      // If we get here, no moves are possible
+      // Check if it's a win (all tiles are 64)
+      const isWin = checkForWin(currentBoard);
+      handleGameEnd(isWin);
+      return true;
+    },
+    [handleGameEnd]
+  );
 
   // Move and merge tiles
-  const move = (direction: 'up' | 'down' | 'left' | 'right') => {
-    if (gameOver) return;
+  const move = useCallback(
+    (direction: 'up' | 'down' | 'left' | 'right') => {
+      if (gameOver) return;
 
-    const newBoard = board.map(row => [...row]);
-    let moved = false;
-    let merged = false;
+      const newBoard = board.map((row) => [...row]);
+      let moved = false;
+      let merged = false;
 
-    const moveRow = (row: number[]) => {
-      // Remove zeros
-      const filtered = row.filter(cell => cell !== 0);
-      
-      // Merge adjacent equal numbers
-      for (let i = 0; i < filtered.length - 1; i++) {
-        if (filtered[i] === filtered[i + 1] && filtered[i] <= 32) { // Only merge if result won't exceed 64
-          filtered[i] *= 2;
-          filtered.splice(i + 1, 1);
-          setScore(prev => prev + filtered[i]);
-          merged = true;
+      const moveRow = (row: number[]) => {
+        // Remove zeros
+        const filtered = row.filter((cell) => cell !== 0);
+
+        // Merge adjacent equal numbers
+        for (let i = 0; i < filtered.length - 1; i++) {
+          if (filtered[i] === filtered[i + 1] && filtered[i] <= 32) {
+            // Only merge if result won't exceed 64
+            filtered[i] *= 2;
+            filtered.splice(i + 1, 1);
+            setScore((prev) => prev + filtered[i]);
+            merged = true;
+          }
         }
-      }
-      
-      // Add zeros back
-      while (filtered.length < 4) filtered.push(0);
-      return filtered;
-    };
 
-    // Process each row/column based on direction
-    if (direction === 'left' || direction === 'right') {
-      for (let i = 0; i < 4; i++) {
-        const row = direction === 'left' ? [...newBoard[i]] : [...newBoard[i]].reverse();
-        const processed = moveRow(row);
-        const finalRow = direction === 'left' ? processed : processed.reverse();
-        
-        if (JSON.stringify(newBoard[i]) !== JSON.stringify(finalRow)) {
-          moved = true;
-        }
-        newBoard[i] = finalRow;
-      }
-    } else {
-      for (let j = 0; j < 4; j++) {
-        const column = [];
+        // Add zeros back
+        while (filtered.length < 4) filtered.push(0);
+        return filtered;
+      };
+
+      // Process each row/column based on direction
+      if (direction === 'left' || direction === 'right') {
         for (let i = 0; i < 4; i++) {
-          column.push(newBoard[i][j]);
-        }
-        const processed = direction === 'up' ? moveRow(column) : moveRow([...column].reverse()).reverse();
-        
-        for (let i = 0; i < 4; i++) {
-          if (newBoard[i][j] !== processed[i]) {
+          const row = direction === 'left' ? [...newBoard[i]] : [...newBoard[i]].reverse();
+          const processed = moveRow(row);
+          const finalRow = direction === 'left' ? processed : processed.reverse();
+
+          if (JSON.stringify(newBoard[i]) !== JSON.stringify(finalRow)) {
             moved = true;
           }
-          newBoard[i][j] = processed[i];
+          newBoard[i] = finalRow;
+        }
+      } else {
+        for (let j = 0; j < 4; j++) {
+          const column = [];
+          for (let i = 0; i < 4; i++) {
+            column.push(newBoard[i][j]);
+          }
+          const processed =
+            direction === 'up' ? moveRow(column) : moveRow([...column].reverse()).reverse();
+
+          for (let i = 0; i < 4; i++) {
+            if (newBoard[i][j] !== processed[i]) {
+              moved = true;
+            }
+            newBoard[i][j] = processed[i];
+          }
         }
       }
-    }
 
-    if (moved || merged) {
-      addNumber(newBoard);
-      setBoard(newBoard);
-      if (checkGameOver(newBoard)) {
-        setGameOver(true);
+      if (moved || merged) {
+        addNumber(newBoard);
+        setBoard(newBoard);
+        if (checkGameOver(newBoard)) {
+          setGameOver(true);
+        }
       }
-    }
-  };
+    },
+    [board, gameOver, checkGameOver]
+  );
 
   // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Prevent default arrow key behavior (scrolling)
-      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         e.preventDefault();
       }
 
@@ -221,7 +239,7 @@ const Game48 = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [board, gameOver]);
+  }, [move]);
 
   const getCellColor = (value: number) => {
     const colors: { [key: number]: string } = {
@@ -231,7 +249,7 @@ const Game48 = () => {
       8: 'bg-yellow-500',
       16: 'bg-orange-500',
       32: 'bg-red-500',
-      64: 'bg-purple-500'
+      64: 'bg-purple-500',
     };
     return colors[value] || 'bg-purple-600';
   };
@@ -267,14 +285,10 @@ const Game48 = () => {
 
       {gameOver && (
         <div className="mt-4 text-white text-center">
-          <h2 className="text-xl font-bold mb-2">
-            {won ? 'Congratulations!' : 'Game Over!'}
-          </h2>
+          <h2 className="text-xl font-bold mb-2">{won ? 'Congratulations!' : 'Game Over!'}</h2>
           <p className="mb-2">Final Score: {score}</p>
           {score >= 250 && !won && (
-            <p className="text-game-accent mb-2">
-              Great score! You earned bonus coins!
-            </p>
+            <p className="text-game-accent mb-2">Great score! You earned bonus coins!</p>
           )}
           <button
             onClick={initBoard}

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../types';
 import axios from '../../utils/axiosConfig';
+import { AxiosError } from 'axios';
 
 interface AuthState {
   user: User | null;
@@ -23,8 +24,11 @@ export const fetchUserData = createAsyncThunk(
     try {
       const response = await axios.get('/auth/me');
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch user data');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to fetch user data');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -38,8 +42,11 @@ export const equipItem = createAsyncThunk(
       // Fetch fresh user data after equipping item
       await dispatch(fetchUserData());
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to equip item');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to equip item');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -52,8 +59,11 @@ export const unequipItem = createAsyncThunk(
       // Fetch fresh user data after unequipping item
       await dispatch(fetchUserData());
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to unequip item');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to unequip item');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -67,8 +77,11 @@ export const addCoins = createAsyncThunk(
       // Fetch fresh user data after adding coins
       await dispatch(fetchUserData());
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to add coins');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to add coins');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );

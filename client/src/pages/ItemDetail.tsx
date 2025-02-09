@@ -38,9 +38,9 @@ const ItemDetail = () => {
         {/* Item Details */}
         <div className="p-6">
           <div className="flex items-start gap-8">
-            <img 
-              src={item.imageUrl} 
-              alt={item.name} 
+            <img
+              src={item.imageUrl}
+              alt={item.name}
               className="w-64 h-64 object-contain bg-gray-900 rounded-lg"
             />
             <div className="flex-1">
@@ -88,9 +88,7 @@ const ItemDetail = () => {
               {item.reviews.map((review) => (
                 <div key={review.user._id} className="bg-gray-700 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-game-accent font-semibold">
-                      {review.user.username}
-                    </span>
+                    <span className="text-game-accent font-semibold">{review.user.username}</span>
                     <div className="flex items-center">
                       <span className="text-yellow-400 mr-1">★</span>
                       <span className="text-gray-300">{review.rating}</span>

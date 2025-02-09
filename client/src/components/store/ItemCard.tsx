@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/slices/cartSlice';
 import { AppDispatch, RootState } from '../../store';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
+import { MouseEvent } from 'react';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface ItemCardProps {
   item: Item;
@@ -16,20 +19,25 @@ const ItemCard = ({ item }: ItemCardProps) => {
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case 'legendary': return 'text-yellow-400';
-      case 'epic': return 'text-purple-400';
-      case 'rare': return 'text-blue-400';
-      case 'uncommon': return 'text-green-400';
-      default: return 'text-gray-400';
+      case 'legendary':
+        return 'text-yellow-400';
+      case 'epic':
+        return 'text-purple-400';
+      case 'rare':
+        return 'text-blue-400';
+      case 'uncommon':
+        return 'text-green-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
-  const isInCart = cartItems?.some(cartItem => cartItem.item._id === item._id) || false;
+  const isInCart = cartItems?.some((cartItem) => cartItem.item._id === item._id) || false;
   const canAfford = user && user.points >= item.price;
 
-  const handleAddToCart = async (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: MouseEvent) => {
     e.preventDefault(); // Prevent navigation when clicking the button
-    
+
     if (!user) {
       toast.error('Please log in to add items to cart');
       return;
@@ -41,7 +49,9 @@ const ItemCard = ({ item }: ItemCardProps) => {
     }
 
     if (!canAfford) {
-      toast.error(`You need ${item.price - (user?.points || 0)} more coins to add this item to cart`);
+      toast.error(
+        `You need ${item.price - (user?.points || 0)} more coins to add this item to cart`
+      );
       return;
     }
 
@@ -53,8 +63,13 @@ const ItemCard = ({ item }: ItemCardProps) => {
     try {
       await dispatch(addToCart(item._id)).unwrap();
       toast.success('Added to cart!');
-    } catch (error: any) {
-      toast.error(error?.message || 'Failed to add item to cart');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || 'Failed to add item to cart');
+        return;
+      }
+      const err = error as SerializedError;
+      toast.error(err.message || 'Failed to add item to cart');
     }
   };
 
@@ -100,20 +115,20 @@ const ItemCard = ({ item }: ItemCardProps) => {
                 item.stock === 0
                   ? 'bg-gray-600 cursor-not-allowed'
                   : isInCart
-                  ? 'bg-green-600 cursor-not-allowed'
-                  : !canAfford
-                  ? 'bg-red-600 cursor-not-allowed'
-                  : 'bg-game-accent hover:bg-game-accent-dark'
+                    ? 'bg-green-600 cursor-not-allowed'
+                    : !canAfford
+                      ? 'bg-red-600 cursor-not-allowed'
+                      : 'bg-game-accent hover:bg-game-accent-dark'
               } text-white`}
               disabled={item.stock === 0 || isInCart || !canAfford}
             >
               {item.stock === 0
                 ? 'Out of Stock'
                 : isInCart
-                ? 'In Cart'
-                : !canAfford
-                ? 'Not Enough Coins'
-                : 'Add to Cart'}
+                  ? 'In Cart'
+                  : !canAfford
+                    ? 'Not Enough Coins'
+                    : 'Add to Cart'}
             </button>
           )}
         </div>
