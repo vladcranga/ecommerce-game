@@ -1,4 +1,31 @@
 import axios from 'axios';
+import { Item, User } from '../types';
+
+interface RegisterData {
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+interface ItemData extends Omit<Item, '_id' | 'reviews' | 'averageRating'> {
+  reviews?: never;
+  averageRating?: never;
+}
+
+interface ReviewData {
+  rating: number;
+  comment: string;
+}
 
 const api = axios.create({
   baseURL: '/api',
@@ -13,18 +40,19 @@ api.interceptors.request.use((config) => {
 });
 
 export const auth = {
-  register: (userData: any) => api.post('/auth/register', userData),
-  login: (credentials: any) => api.post('/auth/login', credentials),
+  register: (userData: RegisterData) => api.post<AuthResponse>('/auth/register', userData),
+  login: (credentials: LoginData) => api.post<AuthResponse>('/auth/login', credentials),
 };
 
 export const items = {
-  getAll: () => api.get('/items'),
-  getById: (id: string) => api.get(`/items/${id}`),
-  create: (itemData: any) => api.post('/items', itemData),
-  update: (id: string, itemData: any) => api.put(`/items/${id}`, itemData),
-  delete: (id: string) => api.delete(`/items/${id}`),
-  addReview: (id: string, reviewData: any) => api.post(`/items/${id}/reviews`, reviewData),
-  getReviews: (id: string) => api.get(`/items/${id}/reviews`),
+  getAll: () => api.get<Item[]>('/items'),
+  getById: (id: string) => api.get<Item>(`/items/${id}`),
+  create: (itemData: ItemData) => api.post<Item>('/items', itemData),
+  update: (id: string, itemData: Partial<ItemData>) => api.put<Item>(`/items/${id}`, itemData),
+  delete: (id: string) => api.delete<void>(`/items/${id}`),
+  addReview: (id: string, reviewData: ReviewData) =>
+    api.post<Item>(`/items/${id}/reviews`, reviewData),
+  getReviews: (id: string) => api.get<Item[]>(`/items/${id}/reviews`),
 };
 
 export const cart = {

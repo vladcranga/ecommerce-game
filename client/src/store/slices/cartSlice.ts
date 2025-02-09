@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../utils/axiosConfig';
 import { Item } from '../../types';
 import { fetchUserData } from './authSlice';
+import { AxiosError } from 'axios';
 
 // Define cart item interface
 export interface CartItem {
@@ -22,17 +23,17 @@ const initialState: CartState = {
 };
 
 // Async thunks
-export const fetchCart = createAsyncThunk(
-  'cart/fetchCart',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get('/cart');
-      return response.data.items;
-    } catch (error: any) {
+export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
+  try {
+    const response = await axios.get('/cart');
+    return response.data.items;
+  } catch (error) {
+    if (error instanceof AxiosError) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch cart');
     }
+    return rejectWithValue('An unexpected error occurred');
   }
-);
+});
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
@@ -40,8 +41,11 @@ export const addToCart = createAsyncThunk(
     try {
       const response = await axios.post(`/cart/add/${itemId}`);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to add item to cart');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to add item to cart');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -52,8 +56,11 @@ export const removeFromCart = createAsyncThunk(
     try {
       const response = await axios.delete(`/cart/remove/${itemId}`);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to remove item from cart');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to remove item from cart');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -64,8 +71,11 @@ export const updateQuantity = createAsyncThunk(
     try {
       const response = await axios.post(`/cart/update/${itemId}`, { quantity });
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update quantity');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to update quantity');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -78,8 +88,11 @@ export const checkout = createAsyncThunk(
       // Fetch fresh user data after successful purchase
       await dispatch(fetchUserData());
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to checkout');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to checkout');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
@@ -159,7 +172,7 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-  }
+  },
 });
 
 export const { clearError } = cartSlice.actions;

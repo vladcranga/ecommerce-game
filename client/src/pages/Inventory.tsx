@@ -16,7 +16,7 @@ const Inventory = () => {
     damage: 10,
     defense: 5,
     speed: 10,
-    health: 100
+    health: 100,
   };
 
   const defaultEquippedItems = {
@@ -24,7 +24,7 @@ const Inventory = () => {
     helmet: null,
     chestpiece: null,
     boots: null,
-    potion: null
+    potion: null,
   };
 
   return (

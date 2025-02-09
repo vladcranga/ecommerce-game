@@ -19,7 +19,7 @@ const Cart = () => {
   const handleRemoveFromCart = async (itemId: string) => {
     try {
       await dispatch(removeFromCart(itemId)).unwrap();
-    } catch (error) {
+    } catch {
       toast.error('Failed to remove item from cart');
     }
   };
@@ -28,7 +28,7 @@ const Cart = () => {
     try {
       await dispatch(checkout()).unwrap();
       toast.success('Purchase successful!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to purchase items');
     }
   };
@@ -80,9 +80,7 @@ const Cart = () => {
                     className="w-16 h-16 object-cover rounded"
                   />
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      {cartItem.item.name}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">{cartItem.item.name}</h3>
                     <p className="text-gray-400">{cartItem.item.description}</p>
                     <p className="text-game-accent">{cartItem.item.price} coins</p>
                   </div>
@@ -113,7 +111,7 @@ const Cart = () => {
             </div>
             {user && user.points < calculateTotal() && (
               <p className="text-red-500 mt-2">
-                You don't have enough coins to make this purchase
+                You do not have enough coins to make this purchase
               </p>
             )}
           </div>

@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { auth } from '../../services/api';
 import { setCredentials } from '../../store/slices/authSlice';
 import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import type { FormEvent } from 'react';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -13,14 +15,18 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const { data } = await auth.register({ username, email, password });
       dispatch(setCredentials(data));
       navigate('/store');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        setError(err.response?.data?.message || 'Registration failed');
+      } else {
+        setError('An unexpected error occurred');
+      }
     }
   };
 
@@ -31,11 +37,7 @@ const Register = () => {
           ← Back to Home
         </Link>
         <h2 className="text-3xl font-bold text-game-accent mb-6 text-center">Register</h2>
-        {error && (
-          <div className="bg-red-500 text-white p-3 rounded mb-4 text-center">
-            {error}
-          </div>
-        )}
+        {error && <div className="bg-red-500 text-white p-3 rounded mb-4 text-center">{error}</div>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-300 mb-2">Username</label>

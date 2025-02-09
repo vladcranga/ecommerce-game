@@ -14,19 +14,21 @@ const Minigames = () => {
       description: 'Combine numbers to reach 64! A simpler version of 2048.',
       reward: 'Earn up to 50 coins per win!',
       screenshot: game64Screenshot,
-      component: Game48
-    }
+      component: Game48,
+    },
     // More games can be added here
   ];
 
-  const GameComponent = selectedGame ? games.find(game => game.id === selectedGame)?.component : null;
+  const GameComponent = selectedGame
+    ? games.find((game) => game.id === selectedGame)?.component
+    : null;
 
   return (
     <div className="min-h-screen bg-gray-900">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6 text-white">Minigames</h1>
-        
+
         {!selectedGame ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {games.map((game) => (
@@ -36,9 +38,9 @@ const Minigames = () => {
                 onClick={() => setSelectedGame(game.id)}
               >
                 <div className="relative w-full aspect-video mb-4 overflow-hidden rounded-lg">
-                  <img 
-                    src={game.screenshot} 
-                    alt={`${game.name} screenshot`} 
+                  <img
+                    src={game.screenshot}
+                    alt={`${game.name} screenshot`}
                     className="w-full h-full object-contain hover:scale-110 transition-transform duration-200"
                   />
                 </div>

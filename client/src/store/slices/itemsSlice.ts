@@ -29,13 +29,13 @@ const itemsSlice = createSlice({
       state.items.push(action.payload);
     },
     updateItem: (state, action: PayloadAction<Item>) => {
-      const index = state.items.findIndex(item => item._id === action.payload._id);
+      const index = state.items.findIndex((item) => item._id === action.payload._id);
       if (index !== -1) {
         state.items[index] = action.payload;
       }
     },
     deleteItem: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(item => item._id !== action.payload);
+      state.items = state.items.filter((item) => item._id !== action.payload);
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -46,14 +46,7 @@ const itemsSlice = createSlice({
   },
 });
 
-export const {
-  setItems,
-  setSelectedItem,
-  addItem,
-  updateItem,
-  deleteItem,
-  setLoading,
-  setError,
-} = itemsSlice.actions;
+export const { setItems, setSelectedItem, addItem, updateItem, deleteItem, setLoading, setError } =
+  itemsSlice.actions;
 
 export default itemsSlice.reducer;

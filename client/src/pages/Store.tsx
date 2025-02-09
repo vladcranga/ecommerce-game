@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { items } from '../services/api';
@@ -9,12 +9,13 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { Item } from '../types';
 import { AppDispatch } from '../store';
+import { AxiosError } from 'axios';
 
 const Store = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { items: storeItems, error } = useSelector((state: RootState) => state.items);
   const { items: cartItems } = useSelector((state: RootState) => state.cart);
-  
+
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('all');
@@ -23,23 +24,27 @@ const Store = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [sortBy, setSortBy] = useState('name');
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       const response = await items.getAll();
       dispatch(setItems(response.data));
-    } catch (err: any) {
-      dispatch(setError(err.message));
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        dispatch(setError(err.response?.data?.message || 'Failed to fetch items'));
+      } else {
+        dispatch(setError('An unexpected error occurred'));
+      }
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchItems();
-  }, [dispatch]);
+  }, [fetchItems]);
 
   // Refresh items when cart changes
   useEffect(() => {
     fetchItems();
-  }, [cartItems]);
+  }, [fetchItems, cartItems]);
 
   // Filter and sort items
   const filteredItems = useMemo(() => {
@@ -54,26 +59,20 @@ const Store = () => {
         return matchesSearch && matchesCategory && matchesRarity && matchesLevel && matchesPrice;
       })
       .sort((a: Item, b: Item) => {
-        const [field, order] = sortBy.startsWith('-') 
-          ? [sortBy.slice(1), -1] 
-          : [sortBy, 1];
+        const [field, order] = sortBy.startsWith('-') ? [sortBy.slice(1), -1] : [sortBy, 1];
 
         if (field === 'name') {
           return order * a.name.localeCompare(b.name);
         }
-        return order * (a[field as keyof Item] as number - (b[field as keyof Item] as number));
+        return order * ((a[field as keyof Item] as number) - (b[field as keyof Item] as number));
       });
   }, [storeItems, searchTerm, category, rarity, minLevel, maxPrice, sortBy]);
 
   return (
     <div className="min-h-screen bg-gray-900">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">        
-        {error && (
-          <div className="bg-red-500 text-white p-4 rounded mb-4">
-            {error}
-          </div>
-        )}
+      <div className="container mx-auto px-4 py-8">
+        {error && <div className="bg-red-500 text-white p-4 rounded mb-4">{error}</div>}
 
         <FilterBar
           searchTerm={searchTerm}
@@ -98,7 +97,7 @@ const Store = () => {
 
         {filteredItems.length === 0 && (
           <div className="text-center text-gray-400 py-8">
-            No items found matching your criteria
+            No items found matching your criteria.
           </div>
         )}
       </div>
