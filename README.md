@@ -100,15 +100,44 @@ cd ../server
 npm install
 ```
 
-4. Start the development servers
+4. Set up MongoDB
+- Make sure MongoDB is installed and running on your system
+- The database and collections will be created automatically when the server starts
+- Import the store items data located at `server/src/database/fantasy-game-store.items.json`:
 ```bash
-# Terminal 1 - Frontend
-cd client
-npm run dev
+mongoimport --db fantasy-game-store --collection items --file server/src/database/fantasy-game-store.items.json --jsonArray
+```
 
-# Terminal 2 - Backend
+5. Environment Setup
+- Create a `.env` file in the server directory with the following variables:
+```
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/fantasy-game-store
+JWT_SECRET=your_jwt_secret_here
+```
+
+6. Start the web application
+- Start the backend server:
+```bash
 cd server
 npm run dev
+```
+- In a new terminal, start the frontend:
+```bash
+cd client
+npm run dev
+```
+
+The frontend should now be running at `http://localhost:3000` with the backend API at `http://localhost:5000`.
+
+### Admin Setup
+To gain access to admin functionality, you'll need to:
+1. Register a new user through the web application
+2. Manually update the user's role to "admin" in the MongoDB database:
+```bash
+mongosh
+use fantasy-game-store
+db.users.updateOne({email: "your_email@example.com"}, {$set: {isAdmin: true}})
 ```
 
 ## 🤝 Contributing
@@ -117,4 +146,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📝 License
 
-This project is intended for educational purposes only. All game assets and images are either AI-generated or used from copyright-free sources with proper attribution.
+This project is intended for personal portfolio purposes only. All game assets and images are either AI-generated or sourced from copyright-free sources with proper attribution where required.
