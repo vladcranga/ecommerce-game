@@ -1,0 +1,190 @@
+[
+  {
+    "_id": {
+      "$oid": "67507f8d6988393afa28bbf7"
+    },
+    "name": "Frostsong, Sentinel of the Peaks",
+    "description": "Forged among ancient glaciers, this blade carries the power of eternal frost. Legend has it that its chilling song once silenced a great storm, freezing time itself.",
+    "price": 1000,
+    "category": "weapon",
+    "rarity": "legendary",
+    "attributes": {
+      "damage": 100,
+      "magic": 50,
+      "defense": 0,
+      "speed": 0,
+      "health": 0
+    },
+    "level": 20,
+    "imageUrl": "http://localhost:5000/images/weapons/frostsong_legendary.jpg",
+    "stock": 2,
+    "questRequirement": null,
+    "reviews": [
+      {
+        "user": {
+          "$oid": "67507478c7d920cad78ccdf4"
+        },
+        "rating": 5,
+        "comment": "A true masterpiece!",
+        "_id": {
+          "$oid": "675081936988393afa28bbfc"
+        },
+        "createdAt": {
+          "$date": "2024-12-04T16:21:39.774Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-12-04T16:13:01.648Z"
+    },
+    "updatedAt": {
+      "$date": "2025-01-17T19:32:54.562Z"
+    },
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "67509965a3b95b2b420bd45a"
+    },
+    "name": "New Adventurer's Boots",
+    "description": "Ideal for those embarking on their first journeys, these common boots offer comfort and durability.",
+    "price": 25,
+    "category": "boots",
+    "rarity": "common",
+    "attributes": {
+      "speed": 10,
+      "damage": 0,
+      "defense": 0,
+      "magic": 0,
+      "health": 0
+    },
+    "level": 1,
+    "imageUrl": "http://localhost:5000/images/boots/new_adventurer_boots_common.jpg",
+    "stock": 7,
+    "questRequirement": null,
+    "reviews": [],
+    "createdAt": {
+      "$date": "2024-12-04T18:03:17.239Z"
+    },
+    "updatedAt": {
+      "$date": "2025-01-18T19:31:48.714Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6751c30ffac3e1d44c0df41a"
+    },
+    "name": "New Adventurer's Helmet",
+    "description": "A simple, wooden helmet for beginner adventurers. Its strong faceplate and narrow eye slits provide basic defense.",
+    "price": 50,
+    "category": "helmet",
+    "rarity": "common",
+    "attributes": {
+      "defense": 5,
+      "damage": 0,
+      "magic": 0,
+      "speed": 0,
+      "health": 5
+    },
+    "level": 1,
+    "imageUrl": "http://localhost:5000/images/helmets/new_adventurer_helmet_common.jpg",
+    "stock": 10,
+    "questRequirement": null,
+    "reviews": [],
+    "createdAt": {
+      "$date": "2024-12-05T15:13:19.191Z"
+    },
+    "updatedAt": {
+      "$date": "2024-12-05T15:13:19.191Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6751c563fac3e1d44c0df440"
+    },
+    "name": "New Adventurer's Chestpiece",
+    "description": "A basic chestpiece for beginner adventurers. Made of reinforced wood, it offers solid protection for the torso.",
+    "price": 50,
+    "category": "chestpiece",
+    "rarity": "common",
+    "attributes": {
+      "defense": 10,
+      "damage": 0,
+      "magic": 0,
+      "speed": 0,
+      "health": 5
+    },
+    "level": 1,
+    "imageUrl": "http://localhost:5000/images/chestpieces/new_adventurer_chestpiece_common.jpg",
+    "stock": 10,
+    "questRequirement": null,
+    "reviews": [],
+    "createdAt": {
+      "$date": "2024-12-05T15:23:15.454Z"
+    },
+    "updatedAt": {
+      "$date": "2025-01-17T19:33:20.721Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6751c9af325fd8fa250c97b2"
+    },
+    "name": "Basic Healing Potion",
+    "description": "A simple potion with a bright red liquid that glows faintly. A must-have for beginner adventurers to recover from minor wounds during their journey.",
+    "price": 10,
+    "category": "potion",
+    "rarity": "common",
+    "attributes": {
+      "magic": 25,
+      "damage": 0,
+      "defense": 0,
+      "speed": 0,
+      "health": 0
+    },
+    "level": 2,
+    "imageUrl": "http://localhost:5000/images/potions/basic_healing_potion_common.jpg",
+    "stock": 46,
+    "questRequirement": null,
+    "reviews": [],
+    "createdAt": {
+      "$date": "2024-12-05T15:41:35.145Z"
+    },
+    "updatedAt": {
+      "$date": "2024-12-05T19:19:10.656Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6751d0a6325fd8fa250c97c5"
+    },
+    "name": "Wooden Training Sword",
+    "description": "A lightweight sword made of wood. Often used by beginners to practice combat skills safely.",
+    "price": 50,
+    "category": "weapon",
+    "rarity": "common",
+    "attributes": {
+      "damage": 10,
+      "defense": 0,
+      "magic": 0,
+      "speed": 0,
+      "health": 0
+    },
+    "level": 1,
+    "imageUrl": "http://localhost:5000/images/weapons/wooden_training_sword_common.jpg",
+    "stock": 15,
+    "questRequirement": null,
+    "reviews": [],
+    "createdAt": {
+      "$date": "2024-12-05T16:11:18.116Z"
+    },
+    "updatedAt": {
+      "$date": "2024-12-05T16:11:18.116Z"
+    },
+    "__v": 0
+  }
+]
