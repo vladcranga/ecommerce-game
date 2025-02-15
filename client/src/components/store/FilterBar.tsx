@@ -40,6 +40,25 @@ const FilterBar = ({
     { value: '-level', label: 'Level (High to Low)' },
   ];
 
+  // Input validation handlers
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+    e.target.value = value;
+    onSearchChange(e);
+  };
+
+  const handleMinLevelChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/^0+|[^0-9]/g, '');
+    e.target.value = value;
+    onMinLevelChange(e);
+  };
+
+  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/^0+|[^0-9]/g, '');
+    e.target.value = value;
+    onMaxPriceChange(e);
+  };
+
   return (
     <div className="bg-gray-800 p-4 rounded-lg mb-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -52,8 +71,8 @@ const FilterBar = ({
             type="text"
             id="search"
             value={searchTerm}
-            onChange={onSearchChange}
-            placeholder="Search items..."
+            onChange={handleSearchChange}
+            placeholder="Enter an item..."
             className="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-game-accent"
           />
         </div>
@@ -102,11 +121,14 @@ const FilterBar = ({
             Minimum Level
           </label>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[1-9][0-9]*"
             id="minLevel"
             value={minLevel}
-            onChange={onMinLevelChange}
-            min="0"
+            onChange={handleMinLevelChange}
+            placeholder="Enter a level..."
+            min="1"
             className="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-game-accent"
           />
         </div>
@@ -117,11 +139,14 @@ const FilterBar = ({
             Maximum Price
           </label>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[1-9][0-9]*"
             id="maxPrice"
             value={maxPrice}
-            onChange={onMaxPriceChange}
-            min="0"
+            onChange={handleMaxPriceChange}
+            placeholder="Enter a price..."
+            min="1"
             className="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-game-accent"
           />
         </div>
