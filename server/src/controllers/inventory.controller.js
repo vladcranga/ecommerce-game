@@ -1,11 +1,11 @@
-const asyncHandler = require('express-async-handler');
-const User = require('../models/user.model');
-const Item = require('../models/item.model');
+import asyncHandler from 'express-async-handler';
+import User from '../models/user.model.js';
+import Item from '../models/item.model.js';
 
 // @desc    Equip an item
 // @route   POST /api/users/equip/:itemId
 // @access  Private
-const equipItem = asyncHandler(async (req, res) => {
+export const equipItem = asyncHandler(async (req, res) => {
   const { itemId } = req.params;
   const userId = req.user._id;
 
@@ -62,7 +62,7 @@ const equipItem = asyncHandler(async (req, res) => {
 // @desc    Unequip an item
 // @route   POST /api/users/unequip/:slot
 // @access  Private
-const unequipItem = asyncHandler(async (req, res) => {
+export const unequipItem = asyncHandler(async (req, res) => {
   const { slot } = req.params;
   const userId = req.user._id;
 
@@ -113,8 +113,3 @@ const unequipItem = asyncHandler(async (req, res) => {
     stats: user.stats,
   });
 });
-
-module.exports = {
-  equipItem,
-  unequipItem,
-};

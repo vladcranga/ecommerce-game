@@ -1,7 +1,7 @@
-const Item = require('../models/item.model');
+import Item from '../models/item.model.js';
 
 // Get all items with filtering
-exports.getItems = async (req, res) => {
+export const getItems = async (req, res) => {
   try {
     const { category, rarity, minLevel, maxPrice, search, populateQuest } = req.query;
     const query = {};
@@ -34,7 +34,7 @@ exports.getItems = async (req, res) => {
 };
 
 // Get single item by ID
-exports.getItem = async (req, res) => {
+export const getItem = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id)
       .populate('questRequirement')
@@ -51,7 +51,7 @@ exports.getItem = async (req, res) => {
 };
 
 // Create new item
-exports.createItem = async (req, res) => {
+export const createItem = async (req, res) => {
   try {
     const item = new Item(req.body);
     await item.save();
@@ -62,7 +62,7 @@ exports.createItem = async (req, res) => {
 };
 
 // Update item
-exports.updateItem = async (req, res) => {
+export const updateItem = async (req, res) => {
   try {
     const item = await Item.findByIdAndUpdate(
       req.params.id,
@@ -81,7 +81,7 @@ exports.updateItem = async (req, res) => {
 };
 
 // Delete item
-exports.deleteItem = async (req, res) => {
+export const deleteItem = async (req, res) => {
   try {
     const item = await Item.findByIdAndDelete(req.params.id);
 
@@ -96,7 +96,7 @@ exports.deleteItem = async (req, res) => {
 };
 
 // Add review to item
-exports.addReview = async (req, res) => {
+export const addReview = async (req, res) => {
   try {
     const { rating, comment } = req.body;
     const userId = req.user.id; // This will come from auth middleware
@@ -127,7 +127,7 @@ exports.addReview = async (req, res) => {
 };
 
 // Get item reviews
-exports.getItemReviews = async (req, res) => {
+export const getItemReviews = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id)
       .select('reviews')

@@ -1,16 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth.routes');
-const itemRoutes = require('./routes/item.routes');
-const inventoryRoutes = require('./routes/inventory.routes');
-const cartRoutes = require('./routes/cart.routes');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import authRoutes from './routes/auth.routes.js';
+import itemRoutes from './routes/item.routes.js';
+import inventoryRoutes from './routes/inventory.routes.js';
+import cartRoutes from './routes/cart.routes.js';
 
 // Import models to register them
-require('./models/user.model');
-require('./models/item.model');
-require('./models/quest.model');
+import './models/user.model.js';
+import './models/item.model.js';
+import './models/quest.model.js';
 
 // Load environment variables
 dotenv.config();
@@ -32,13 +32,13 @@ app.use('/api/cart', cartRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to Fantasy Game Store API' });
+  res.json({ message: 'Welcome to the Fantasy Game Store API!' });
 });
 
 // Error handling middleware
 app.use((err, _req, res, _next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
+  res.status(500).json({ message: 'Something went wrong.' });
 });
 
 // Images

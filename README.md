@@ -52,6 +52,7 @@ A unique e-commerce platform that combines traditional online shopping with gami
 - 📊 MongoDB database
 - 🔒 JWT Authentication
 - 🔄 RESTful API
+- ✨ ESLint v9 and Prettier
 
 ## 📁 Project Structure
 
@@ -76,9 +77,10 @@ ecommerce-game/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB
+- Node.js 22+
+- MongoDB 8.x
 - npm or yarn
+- TypeScript-aware IDE (recommended)
 
 ### Installation
 
@@ -95,13 +97,23 @@ npm install
 ```
 
 3. Install backend dependencies
+- Currently, the dependency "eslint-config-airbnb-base" does not support ESLint v9+, so we run npm install --legacy-peer-deps.
 ```bash
 cd ../server
-npm install
+npm install --legacy-peer-deps
 ```
 
 4. Set up MongoDB
 - Make sure MongoDB is installed and running on your system
+  - Check if MongoDB is running on Linux
+    ```bash
+    systemctl status mongod
+    ```
+  - Start or enable MongoDB on Linux if it's not running
+    ```bash
+    systemctl start mongod
+    systemctl enable mongod
+    ```
 - The database and collections will be created automatically when the server starts
 - Import the store items data located at `server/src/database/fantasy-game-store.items.json`:
 ```bash
