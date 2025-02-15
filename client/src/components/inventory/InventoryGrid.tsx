@@ -43,11 +43,13 @@ const InventoryGrid = ({ inventory }: InventoryGridProps) => {
 
     // Get list of equipped item IDs
     const equippedItemIds = user?.equippedItems
-      ? Object.values(user.equippedItems).filter(Boolean).map(item => item?._id)
+      ? Object.values(user.equippedItems)
+          .filter(Boolean)
+          .map((item) => item?._id)
       : [];
 
     return inventory
-      .filter(invItem => {
+      .filter((invItem) => {
         // Filter out equipped items
         const itemId = typeof invItem.item === 'string' ? invItem.item : invItem.item._id;
         return !equippedItemIds.includes(itemId);
