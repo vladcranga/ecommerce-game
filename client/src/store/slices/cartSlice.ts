@@ -80,11 +80,11 @@ export const updateQuantity = createAsyncThunk(
   }
 );
 
-export const checkout = createAsyncThunk(
-  'cart/checkout',
+export const purchaseCart = createAsyncThunk(
+  'cart/purchaseCart',
   async (_, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post('/cart/checkout');
+      const response = await axios.post('/cart/purchase');
       // Fetch fresh user data after successful purchase
       await dispatch(fetchUserData());
       return response.data;
@@ -160,15 +160,15 @@ const cartSlice = createSlice({
         state.error = action.payload as string;
       })
       // Checkout
-      .addCase(checkout.pending, (state) => {
+      .addCase(purchaseCart.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(checkout.fulfilled, (state) => {
+      .addCase(purchaseCart.fulfilled, (state) => {
         state.items = [];
         state.loading = false;
       })
-      .addCase(checkout.rejected, (state, action) => {
+      .addCase(purchaseCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

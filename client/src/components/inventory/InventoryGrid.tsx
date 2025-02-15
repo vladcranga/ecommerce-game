@@ -10,7 +10,7 @@ interface InventoryGridProps {
 
 const InventoryGrid = ({ inventory }: InventoryGridProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { loading, user } = useSelector((state: RootState) => state.auth);
 
   const getRarityColor = (rarity: string) => {
     switch (rarity?.toLowerCase()) {
@@ -41,13 +41,19 @@ const InventoryGrid = ({ inventory }: InventoryGridProps) => {
       return null;
     }
 
-    // Debug inventory state
-    console.log('Inventory Debug:', {
-      inventoryLength: inventory.length,
-      inventoryItems: inventory,
-    });
+    // Get list of equipped item IDs
+    const equippedItemIds = user?.equippedItems
+      ? Object.values(user.equippedItems)
+          .filter(Boolean)
+          .map((item) => item?._id)
+      : [];
 
     return inventory
+      .filter((invItem) => {
+        // Filter out equipped items
+        const itemId = typeof invItem.item === 'string' ? invItem.item : invItem.item._id;
+        return !equippedItemIds.includes(itemId);
+      })
       .map((invItem, index) => {
         // Skip invalid items
         if (!invItem || !invItem.item) {

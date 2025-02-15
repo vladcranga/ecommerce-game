@@ -59,7 +59,7 @@ export const cart = {
   getCart: () => api.get('/cart'),
   addToCart: (itemId: string) => api.post(`/cart/add/${itemId}`),
   removeFromCart: (itemId: string) => api.delete(`/cart/remove/${itemId}`),
-  purchase: () => api.post('/cart/purchase'),
+  purchaseCart: () => api.post('/cart/purchase'),
 };
 
 export default api;

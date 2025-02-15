@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { fetchCart, removeFromCart, checkout } from '../store/slices/cartSlice';
+import { fetchCart, removeFromCart, purchaseCart } from '../store/slices/cartSlice';
 import { toast } from 'react-toastify';
 import { AppDispatch } from '../store';
 import Navbar from '../components/layout/Navbar';
@@ -24,9 +24,9 @@ const Cart = () => {
     }
   };
 
-  const handlePurchase = async () => {
+  const handlePurchaseCart = async () => {
     try {
-      await dispatch(checkout()).unwrap();
+      await dispatch(purchaseCart()).unwrap();
       toast.success('Purchase successful!');
     } catch {
       toast.error('Failed to purchase items');
@@ -98,7 +98,7 @@ const Cart = () => {
                 Total: <span className="text-game-accent">{calculateTotal()} coins</span>
               </div>
               <button
-                onClick={handlePurchase}
+                onClick={handlePurchaseCart}
                 disabled={!user || user.points < calculateTotal()}
                 className={`px-6 py-2 rounded ${
                   !user || user.points < calculateTotal()
