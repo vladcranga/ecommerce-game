@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/user.model.js';
 
 // Protect routes
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     let token;
 
@@ -29,12 +29,15 @@ exports.protect = async (req, res, next) => {
     req.user = user;
     return next();
   } catch (error) {
-    return res.status(401).json({ message: 'Not authorized - Invalid token' });
+    return res.status(401).json({
+      message: 'Not authorized - Invalid token',
+      error: 'Error Message: ' + error.message,
+    });
   }
 };
 
 // Admin middleware
-exports.admin = (req, res, next) => {
+export const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     return next();
   }

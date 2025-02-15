@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const itemSchema = new mongoose.Schema(
   {
@@ -90,4 +90,4 @@ itemSchema.virtual('averageRating').get(function calculateAverageRating() {
 });
 
 const Item = mongoose.model('Item', itemSchema);
-module.exports = Item;
+export default Item;

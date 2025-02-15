@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
-const {
+import {
   getItems,
   getItem,
   createItem,
@@ -9,10 +9,10 @@ const {
   deleteItem,
   addReview,
   getItemReviews,
-} = require('../controllers/item.controller');
+} from '../controllers/item.controller.js';
 
 // Middleware for protecting routes
-const { protect, admin } = require('../middleware/auth.middleware');
+import { protect, admin } from '../middleware/auth.middleware.js';
 
 // Public routes
 router.get('/', getItems);
@@ -27,4 +27,4 @@ router.post('/', protect, admin, createItem);
 router.put('/:id', protect, admin, updateItem);
 router.delete('/:id', protect, admin, deleteItem);
 
-module.exports = router;
+export default router;

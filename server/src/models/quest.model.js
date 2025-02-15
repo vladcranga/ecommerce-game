@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const questSchema = new mongoose.Schema(
   {
@@ -53,4 +53,4 @@ const questSchema = new mongoose.Schema(
 );
 
 const Quest = mongoose.model('Quest', questSchema);
-module.exports = Quest;
+export default Quest;

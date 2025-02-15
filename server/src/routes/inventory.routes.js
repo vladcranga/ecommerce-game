@@ -1,10 +1,10 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
-const { protect } = require('../middleware/auth.middleware');
-const { equipItem, unequipItem } = require('../controllers/inventory.controller');
+import { protect } from '../middleware/auth.middleware.js';
+import { equipItem, unequipItem } from '../controllers/inventory.controller.js';
 
 router.post('/equip/:itemId', protect, equipItem);
 router.post('/unequip/:slot', protect, unequipItem);
 
-module.exports = router;
+export default router;

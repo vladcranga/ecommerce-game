@@ -1,11 +1,11 @@
-const asyncHandler = require('express-async-handler');
-const User = require('../models/user.model');
-const Item = require('../models/item.model');
+import asyncHandler from 'express-async-handler';
+import User from '../models/user.model.js';
+import Item from '../models/item.model.js';
 
 // @desc    Add item to cart
 // @route   POST /api/cart/add/:itemId
 // @access  Private
-const addToCart = asyncHandler(async (req, res) => {
+export const addToCart = asyncHandler(async (req, res) => {
   const { itemId } = req.params;
   const userId = req.user._id;
 
@@ -55,7 +55,7 @@ const addToCart = asyncHandler(async (req, res) => {
 // @desc    Remove item from cart
 // @route   DELETE /api/cart/remove/:itemId
 // @access  Private
-const removeFromCart = asyncHandler(async (req, res) => {
+export const removeFromCart = asyncHandler(async (req, res) => {
   const { itemId } = req.params;
   const userId = req.user._id;
 
@@ -87,7 +87,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
 // @desc    Purchase items in cart
 // @route   POST /api/cart/purchase
 // @access  Private
-const purchaseCart = asyncHandler(async (req, res) => {
+export const purchaseCart = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
   // Get user with populated cart items
@@ -203,7 +203,7 @@ const purchaseCart = asyncHandler(async (req, res) => {
 // @desc    Get cart items
 // @route   GET /api/cart
 // @access  Private
-const getCart = asyncHandler(async (req, res) => {
+export const getCart = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const user = await User.findById(userId).populate('cart.item');
 
@@ -211,10 +211,3 @@ const getCart = asyncHandler(async (req, res) => {
     items: user.cart,
   });
 });
-
-module.exports = {
-  addToCart,
-  removeFromCart,
-  purchaseCart,
-  getCart,
-};

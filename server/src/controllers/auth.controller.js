@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/user.model.js';
 
 // Register a new user
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
 };
 
 // Login user
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -124,7 +124,7 @@ exports.login = async (req, res) => {
 };
 
 // Get user data
-exports.getUser = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     // User is already populated by the auth middleware
     const { user } = req;
@@ -146,7 +146,7 @@ exports.getUser = async (req, res) => {
 };
 
 // Add coins to user
-exports.addCoins = async (req, res) => {
+export const addCoins = async (req, res) => {
   try {
     const { amount } = req.body;
 
