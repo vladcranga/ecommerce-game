@@ -1,9 +1,10 @@
 interface PlayerStatsProps {
   stats: {
-    damage: number;
-    defense: number;
-    speed: number;
     health: number;
+    defense: number;
+    damage: number;
+    magic: number;
+    speed: number;
   };
 }
 
@@ -27,10 +28,11 @@ const PlayerStats = ({ stats }: PlayerStatsProps) => {
     <div className="bg-gray-800 rounded-lg p-6">
       <h2 className="text-2xl font-bold text-white mb-6">Player Stats</h2>
       <div className="space-y-6">
-        <StatBar label="Damage" value={stats.damage} />
-        <StatBar label="Defense" value={stats.defense} />
-        <StatBar label="Speed" value={stats.speed} />
         <StatBar label="Health" value={stats.health} max={500} />
+        <StatBar label="Defense" value={stats.defense} />
+        <StatBar label="Damage" value={stats.damage} />
+        <StatBar label="Magic" value={stats.magic} />
+        <StatBar label="Speed" value={stats.speed} />
       </div>
     </div>
   );
