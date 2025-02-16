@@ -13,10 +13,11 @@ const Inventory = () => {
   if (!user) return null;
 
   const defaultStats = {
-    damage: 10,
-    defense: 5,
-    speed: 10,
     health: 100,
+    defense: 5,
+    damage: 10,
+    magic: 0,
+    speed: 10,
   };
 
   const defaultEquippedItems = {
