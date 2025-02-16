@@ -13,10 +13,11 @@ export interface User {
     potion: Item | null;
   };
   stats: {
-    damage: number;
-    defense: number;
-    speed: number;
     health: number;
+    defense: number;
+    damage: number;
+    magic: number;
+    speed: number;
   };
   achievements: Achievement[];
   gameStats: GameStats;

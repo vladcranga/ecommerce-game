@@ -91,21 +91,25 @@ const userSchema = new mongoose.Schema(
       },
     },
     stats: {
-      damage: {
+      health: {
         type: Number,
-        default: 10,
+        default: 100,
       },
       defense: {
         type: Number,
         default: 5,
       },
-      speed: {
+      damage: {
         type: Number,
         default: 10,
       },
-      health: {
+      magic: {
         type: Number,
-        default: 100,
+        default: 0,
+      },
+      speed: {
+        type: Number,
+        default: 10,
       },
     },
     achievements: [
