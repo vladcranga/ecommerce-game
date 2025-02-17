@@ -88,7 +88,20 @@ const ItemCard = ({ item }: ItemCardProps) => {
               {item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1)}
             </span>
           </div>
-          <p className="text-gray-400 text-sm mb-4 line-clamp-2">{item.description}</p>
+          <p className="text-gray-400 text-sm mb-4 mt-4 line-clamp-2">{item.description}</p>
+          <div className="flex justify-center items-center gap-2 mb-4">
+            {Number(item.averageRating) > 0 ? (
+              <>
+                <div className="flex items-center">
+                  <span className="text-yellow-400">★</span>
+                  <span className="text-gray-300 ml-1">{item.averageRating}</span>
+                </div>
+                <span className="text-gray-400 text-sm">({item.reviews?.length || 0})</span>
+              </>
+            ) : (
+              <span className="text-gray-400 text-sm">No reviews yet.</span>
+            )}
+          </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-400">Level {item.level}</span>
             <span className={`font-bold ${canAfford ? 'text-game-accent' : 'text-red-500'}`}>
