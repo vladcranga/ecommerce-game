@@ -52,6 +52,9 @@ export const items = {
   delete: (id: string) => api.delete<void>(`/items/${id}`),
   addReview: (id: string, reviewData: ReviewData) =>
     api.post<Item>(`/items/${id}/reviews`, reviewData),
+  editReview: (id: string, reviewData: ReviewData) =>
+    api.put<Item>(`/items/${id}/reviews`, reviewData),
+  deleteReview: (id: string) => api.delete<Item>(`/items/${id}/reviews`),
   getReviews: (id: string) => api.get<Item[]>(`/items/${id}/reviews`),
 };
 
