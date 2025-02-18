@@ -24,13 +24,18 @@ A unique e-commerce platform that combines traditional online shopping with gami
   <p><em>The Inventory Management System</em></p>
 </div>
 
+<div align="center">
+  <img src="./client/src/assets/delete_review.png" alt="Delete Review" width="600"/>
+  <p><em>The Review Management System</em></p>
+</div>
+
 ## ✨ Features
 
 ### Core Features
-- 🔐 User authentication system with JWT
 - 🏪 Virtual store with fantasy-themed items
 - 💰 Points-based currency system
 - 🎮 Interactive minigames
+- 🔐 User authentication system with JWT
 
 ### User Experience
 - 📦 Intuitive inventory management
@@ -58,19 +63,40 @@ A unique e-commerce platform that combines traditional online shopping with gami
 
 ```
 ecommerce-game/
-├── client/                 # React frontend
+├── client/                      # React frontend
 │   ├── src/
-│   │   ├── assets/        # Images and static files
-│   │   ├── components/    # Reusable React components
-│   │   ├── pages/         # Main application pages
-│   │   └── store/         # Redux store configuration
-│   └── public/            # Public assets
-├── server/                 # Node.js backend
-│   └── src/
-│       ├── controllers/   # Request handlers
-│       ├── models/        # Database models
-│       ├── routes/        # API routes
-│       └── middleware/    # Custom middleware
+│   │   ├── assets/             # Images and static files
+│   │   ├── components/         # Reusable React components
+│   │   │   ├── auth/          # Authentication components
+│   │   │   ├── inventory/     # Inventory management
+│   │   │   ├── layout/        # Layout components (navbar, footer)
+│   │   │   ├── minigames/     # Minigame-related components
+│   │   │   ├── modals/        # Modal dialogs
+│   │   │   ├── reviews/       # Review system components
+│   │   │   └── store/         # Store components
+│   │   ├── pages/             # Main application pages
+│   │   ├── services/          # API and service integrations
+│   │   ├── store/             # Redux store configuration
+│   │   │   └── slices/        # Redux slices
+│   │   ├── types/             # TypeScript interfaces
+│   │   └── utils/             # Utility functions
+│   └── public/                 # Public assets
+├── server/                      # Node.js backend
+│   ├── src/
+│   │   ├── config/            # Configuration files
+│   │   │   └── db.js         # Database configuration
+│   │   ├── controllers/       # Request handlers
+│   │   ├── database/          # Database store items dump
+│   │   ├── middleware/        # Custom middleware
+│   │   ├── models/            # Database models
+│   │   └── routes/            # API routes
+│   └── public/                 # Static files
+│       └── images/            # Game item images
+│           ├── weapons/       # Weapon images
+│           ├── helmets/       # Helmet images
+│           ├── chestpieces/   # Chestpiece images
+│           ├── boots/         # Boot images
+│           └── potions/       # Potion images
 └── README.md
 ```
 
