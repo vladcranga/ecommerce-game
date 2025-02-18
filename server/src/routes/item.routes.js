@@ -9,6 +9,8 @@ import {
   deleteItem,
   addReview,
   getItemReviews,
+  editReview,
+  deleteReview,
 } from '../controllers/item.controller.js';
 
 // Middleware for protecting routes
@@ -21,6 +23,8 @@ router.get('/:id/reviews', getItemReviews);
 
 // Protected routes (require login)
 router.post('/:id/reviews', protect, addReview);
+router.put('/:id/reviews', protect, editReview);
+router.delete('/:id/reviews', protect, deleteReview);
 
 // Admin only routes
 router.post('/', protect, admin, createItem);
