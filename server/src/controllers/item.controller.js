@@ -113,14 +113,19 @@ export const addReview = async (req, res) => {
       return res.status(400).json({ message: 'You have already reviewed this item' });
     }
 
-    item.reviews.push({
+    const newReview = {
       user: userId,
       rating,
       comment,
-    });
+    };
 
+    item.reviews.push(newReview);
     await item.save();
-    return res.status(201).json(item);
+
+    // Fetch the updated item
+    const updatedItem = await Item.findById(req.params.id).populate('reviews.user', 'username');
+
+    return res.json(updatedItem);
   } catch (error) {
     return res.status(400).json({ message: 'Error adding review', error: error.message });
   }
@@ -140,5 +145,60 @@ export const getItemReviews = async (req, res) => {
     return res.json(item.reviews);
   } catch (error) {
     return res.status(500).json({ message: 'Error fetching reviews', error: error.message });
+  }
+};
+
+// Edit review
+export const editReview = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const userId = req.user.id;
+
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+
+    const review = item.reviews.find((review) => review.user.toString() === userId);
+
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    review.rating = rating;
+    review.comment = comment;
+
+    await item.save();
+
+    // Fetch the updated item
+    const updatedItem = await Item.findById(req.params.id).populate('reviews.user', 'username');
+
+    return res.json(updatedItem);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error updating review', error: error.message });
+  }
+};
+
+// Delete review
+export const deleteReview = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+
+    const reviewIndex = item.reviews.findIndex((review) => review.user.toString() === userId);
+
+    if (reviewIndex === -1) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    item.reviews.splice(reviewIndex, 1);
+    await item.save();
+    return res.json(item);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error deleting review', error: error.message });
   }
 };
