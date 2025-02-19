@@ -178,6 +178,26 @@ use fantasy-game-store
 db.users.updateOne({email: "your_email@example.com"}, {$set: {isAdmin: true}})
 ```
 
+## 🚀 Quick Docker Setup
+
+The project is fully containerised using Docker.
+
+```bash
+# Start all services with Docker Compose
+docker compose up --build
+# The following services will be available:
+# - Frontend: http://localhost:80
+# - Backend: http://localhost:5000
+# - MongoDB: port 27017
+```
+
+To deploy using the published Docker images:
+```bash
+docker pull vladcranga/ecommerce-game-frontend:latest
+docker pull vladcranga/ecommerce-game-backend:latest
+docker compose up -d
+```
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
