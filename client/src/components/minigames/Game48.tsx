@@ -94,7 +94,7 @@ const Game48 = () => {
           toast.success(
             isWin
               ? `Congratulations! You won! Earned ${totalCoins} coins! (${message.join(' + ')})`
-              : `Game Over! You earned ${bonusCoins} bonus coins for your high score!`
+              : `Game Over! You earned ${bonusCoins} bonus coins for your high score!`,
           );
         } catch {
           toast.error('Failed to add coins');
@@ -105,7 +105,7 @@ const Game48 = () => {
         toast.info('Game Over! Try again to earn coins!');
       }
     },
-    [gameOver, score, dispatch, setGameOver, setWon]
+    [gameOver, score, dispatch, setGameOver, setWon],
   );
 
   // Check if game is over
@@ -138,7 +138,7 @@ const Game48 = () => {
       handleGameEnd(isWin);
       return true;
     },
-    [handleGameEnd]
+    [handleGameEnd],
   );
 
   // Move and merge tiles
@@ -208,7 +208,7 @@ const Game48 = () => {
         }
       }
     },
-    [board, gameOver, checkGameOver]
+    [board, gameOver, checkGameOver],
   );
 
   // Handle keyboard input
@@ -273,7 +273,7 @@ const Game48 = () => {
               <div
                 key={`${i}-${j}`}
                 className={`w-16 h-16 m-1 flex items-center justify-center text-white font-bold text-xl rounded ${getCellColor(
-                  cell
+                  cell,
                 )}`}
               >
                 {cell !== 0 && cell}

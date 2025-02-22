@@ -80,7 +80,7 @@ const itemSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 itemSchema.virtual('averageRating').get(function calculateAverageRating() {

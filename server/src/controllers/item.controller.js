@@ -67,7 +67,7 @@ export const updateItem = async (req, res) => {
     const item = await Item.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!item) {

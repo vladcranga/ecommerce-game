@@ -47,7 +47,7 @@ export const addToCart = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 export const removeFromCart = createAsyncThunk(
@@ -62,7 +62,7 @@ export const removeFromCart = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 export const updateQuantity = createAsyncThunk(
@@ -77,7 +77,7 @@ export const updateQuantity = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 export const purchaseCart = createAsyncThunk(
@@ -94,7 +94,7 @@ export const purchaseCart = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 const cartSlice = createSlice({
