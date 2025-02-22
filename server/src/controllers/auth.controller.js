@@ -159,7 +159,7 @@ export const addCoins = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { $inc: { points: amount } },
-      { new: true }
+      { new: true },
     ).select('-password');
 
     if (!user) {

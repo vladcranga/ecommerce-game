@@ -148,7 +148,7 @@ export const purchaseCart = asyncHandler(async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     ).populate({
       path: 'inventory.item',
       model: 'Item',

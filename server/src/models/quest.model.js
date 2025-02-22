@@ -49,7 +49,7 @@ const questSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Quest = mongoose.model('Quest', questSchema);
