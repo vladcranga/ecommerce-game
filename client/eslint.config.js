@@ -16,24 +16,24 @@ export default [
       sourceType: 'module',
       parser: tsParser,
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.node.json']
+        project: ['./tsconfig.app.json', './tsconfig.node.json'],
       },
       globals: {
         ...globals.browser,
-        ...globals.node
-      }
+        ...globals.node,
+      },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
       react: react,
       'react-hooks': reactHooks,
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
     },
     settings: {
       react: { version: 'detect' },
       'import/resolver': {
-        node: { extensions: ['.ts', '.tsx'] }
-      }
+        node: { extensions: ['.ts', '.tsx'] },
+      },
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -42,16 +42,9 @@ export default [
       ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-      'prettier/prettier': ['error', {
-        printWidth: 100,
-        semi: true,
-        singleQuote: true,
-        trailingComma: 'es5',
-        bracketSpacing: true,
-        endOfLine: 'lf'
-      }],
+      'prettier/prettier': ['error'],
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
-    }
-  }
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    },
+  },
 ];
