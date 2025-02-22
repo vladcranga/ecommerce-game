@@ -50,7 +50,7 @@ const ItemCard = ({ item }: ItemCardProps) => {
 
     if (!canAfford) {
       toast.error(
-        `You need ${item.price - (user?.points || 0)} more coins to add this item to cart`
+        `You need ${item.price - (user?.points || 0)} more coins to add this item to cart`,
       );
       return;
     }

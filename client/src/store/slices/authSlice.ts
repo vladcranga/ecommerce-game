@@ -30,7 +30,7 @@ export const fetchUserData = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 // Async thunks for inventory management
@@ -48,7 +48,7 @@ export const equipItem = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 export const unequipItem = createAsyncThunk(
@@ -65,7 +65,7 @@ export const unequipItem = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 // Async thunk to add coins
@@ -83,7 +83,7 @@ export const addCoins = createAsyncThunk(
       }
       return rejectWithValue('An unexpected error occurred');
     }
-  }
+  },
 );
 
 const authSlice = createSlice({
