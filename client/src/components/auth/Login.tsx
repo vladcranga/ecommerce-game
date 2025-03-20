@@ -32,10 +32,13 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-md">
-        <Link to="/" className="text-game-accent hover:text-game-accent-dark mb-6 inline-block">
+        <Link
+          to="/"
+          className="text-lg text-game-accent hover:text-game-accent-dark mb-8 inline-block"
+        >
           ← Back to Home
         </Link>
-        <h2 className="text-3xl font-bold text-game-accent mb-6 text-center">Login</h2>
+        <h2 className="text-4xl font-bold text-game-accent mb-6 text-center">Login</h2>
         {error && <div className="bg-red-500 text-white p-3 rounded mb-4 text-center">{error}</div>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -62,7 +65,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className={`w-full bg-game-accent hover:bg-yellow-500 text-gray-900 
+            className={`w-full bg-game-accent hover:bg-yellow-500 text-white 
               font-bold py-2 px-4 rounded transition duration-300`}
           >
             Login
